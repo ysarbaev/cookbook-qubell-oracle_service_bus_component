@@ -1,26 +1,234 @@
 #!/usr/bin/expect
-set timeout 30
+set timeout 60
 
 set username "<%= @username %>"
 set password "<%= @password %>"
+
 log_user 0
 
 spawn ./config.sh
 
+# Welcome
+# -------
+# Choose between creating and extending a domain. Based on your selection, 
+# the Configuration Wizard guides you through the steps to generate a new or 
+# extend an existing domain.
+#
+# ->1|Create a new WebLogic domain
+#    |    Create a WebLogic domain in your projects directory.  
+#
+#   2|Extend an existing WebLogic domain
+#    |    Use this option to add new components to an existing domain and modify
+
 expect {
-  timeout { send_user "\nFailed to get username prompt\n"; exit 1 }
-  "Enter username to boot WebLogic server:"
+  timeout { send_user "\nFailed Welcome\n"; exit 1 }
+  "Enter index number to select*"
 }
 
 send "1\r"
 
+
+
+# Select Domain Source:
+# ---------------------
+#
+# Select the source from which the domain will be created. You can create the 
+# domain by selecting from the required components or by selecting from a 
+# list of existing domain templates.
+#
+# ->1|Choose Weblogic Platform components
+#    |    You can choose the Weblogic component(s) that you want supported in 
+#    |your domain. 
+#
+#   2|Choose custom template
+#    |    Choose this option if you want to use an existing  template. This 
+#    |could be a custom created template using the Template Builder. 
+
+expect "Enter index number to select*"
+send "1\r"
+
+
+
+# Application Template Selection:
+# -------------------------------
+#
+# 
+#
+#    Available Templates
+#    |_____Basic WebLogic Server Domain - 10.3.6.0 [weblogic]x
+#    |_____Oracle Service Bus OWSM Extension - 11.1.1.7 [service_bus] [2] 
+#    |_____Oracle Enterprise Manager - 11.1.1.0 [oracle_common] [3] 
+#    |_____Oracle Service Bus for developers - 11.1.1.7 [service_bus] [4] 
+#    |_____Oracle Service Bus - 11.1.1.7 [service_bus] [5] 
+#    |_____WebLogic Advanced Web Services for JAX-RPC Extension - 10.3.6.0 [weblogic] [6] 
+#    |_____Oracle WSM Policy Manager - 11.1.1.0 [oracle_common] [7] 
+#    |_____Oracle JRF WebServices Asynchronous services - 11.1.1.0 [oracle_common] [8] 
+#    |_____Oracle JRF - 11.1.1.0 [oracle_common] [9] 
+#    |_____Basic WebLogic SIP Server Domain - 10.3.6.0 [weblogic] [10] 
+#    |_____Oracle Platform Security Service for Audit - 11.1.1.0 [oracle_common] [11] 
+#    |_____WebLogic Advanced Web Services for JAX-WS Extension - 10.3.6.0 [weblogic] [12] 
+
+
+expect "Enter number exactly as it appears in brackets to toggle selection*"
+send "5\r"
+
+#expect "Enter number exactly as it appears in brackets to toggle selection*"
+#send "2\r"
+
+expect "Enter number exactly as it appears in brackets to toggle selection*"
+send "Next\r"
+
+
+
+# Edit Domain Information:
+# ------------------------
+# 
+#    |  Name  |    Value    |
+#   _|________|_____________|
+#   1| *Name: | base_domain |
+
 expect {
-  timeout { send_user "\nLogin failed. Password incorrect.\n"; exit 1}
-  "Enter password to boot WebLogic server:"
+  timeout { send_user "\nFailed Domain Information\n"; exit 1 }
+  "Enter value for*"
 }
 
+send "Next\r"
+
+
+
+# Select the target domain directory for this domain:
+# ---------------------------------------------------
+#
+#    "Target Location" = [Enter new value or use default 
+# "/opt/middleware/user_projects/domains"]
+
+expect {
+  timeout { send_user "\nFailed domain directory\n"; exit 1 }
+  "Enter new Target Location*"
+}
+
+send "Next\r"
+
+
+
+# Configure Administrator User Name and Password:
+# -----------------------------------------------
+#
+# Create a user to be assigned to the Administrator role. This user is the 
+# default administrator used to start development mode servers.
+#
+#    |          Name           |                  Value                  |
+#   _|_________________________|_________________________________________|
+#   1|         *Name:          |                weblogic                 |
+#   2|     *User password:     |                                         |
+#   3| *Confirm user password: |                                         |
+#   4|      Description:       | This user is the default administrator. |
+#
+# Use above value or select another option:
+#    1 - Modify "Name"
+#    2 - Modify "User password"
+#    3 - Modify "Confirm user password"
+#    4 - Modify "Description"
+
+
+expect "Enter option number to select*"
+send "1\r"
+expect "Enter value for*"
+send "$username\r"
+
+expect "Enter option number to select*"
+send "2\r"
+expect "Enter new*"
 send "$password\r"
 
-send_user "\nPassword is correct\n"
+expect "Enter option number to select*"
+send "3\r"
+expect "Enter new*"
+send "$password\r" 
+
+send "Next\r"
+
+
+
+# Domain Mode Configuration:
+# --------------------------
+#
+# Enable Development or Production Mode for this domain. 
+#
+# ->1|Development Mode
+#
+#   2|Production Mode
+
+expect "Enter index number*"
+send "2\r"
+
+
+
+# Java SDK Selection:
+# -------------------
+#
+# ->1|JRockit SDK 1.6.0_45 @ /opt/middleware/jrockit
+#   2|Other Java SDK
+
+expect "Enter index number*"
+send "1\r"
+
+
+
+# Configure JDBC Data Sources:
+# ----------------------------
+#
+# Edit the configuration of JDBC data sources. A data source contains a pool 
+# of database connections. Applications look up a data source in the JNDI 
+# tree, request a connection, use it, and return it to the connection pool.
+#
+#    |        Name         |
+#   _|_____________________|
+#   1| wlsbjmsrpDataSource |
+#
+# Use above value or select another option:
+#    1 - Modify 
+#    2 - Discard Changes
+
+expect "Enter option number to select*"
+send "Next\r"
+
+
+
+# Run Database Scripts:
+# ---------------------
+#
+# If your connections tested OK, you may now run database scripts. For each 
+# JDBC data source, you will select the desired database loading options and 
+# database version.
+# 
+#   1|wlsbjmsrpDataSource
+# ->2|Skip JDBC Configuration
+
+expect "Enter index number*"
+send "2\r"
+
+
+
+# Select Optional Configuration:
+# ------------------------------
+#
+#   1|Administration Server [ ]
+#   2| [ ]
+#   3|Managed Servers, Clusters and Machines [ ]
+#   4|Deployments and Services [ ]
+#   5|JMS File Store [ ]
+#   6|RDBMS Security Store [ ]
+
+expect "Enter index number*"
+send "Next\r"
+
+
+# Creating Domain...
+expect {
+  timeout { send_user "\nFailed Creating Domain\n"; exit 1 }
+  "Enter index number to select*"
+}
+
 send "exit\r"
 close

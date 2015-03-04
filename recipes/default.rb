@@ -105,3 +105,20 @@ execute "runInstaller" do
   action :run
   user "oracle"
 end
+
+
+template "#{node[:osb][:oracle_home]}/common/bin/config.expect" do
+  source "config.expect.erb"
+  owner "oracle"
+  group "root"
+  variables(node[:osb])
+  mode 00755
+end
+
+execute "config" do
+  command "./config.expect"
+  cwd "#{node[:osb][:oracle_home]}/common/bin"
+  action :run
+  user "oracle"
+end
+
