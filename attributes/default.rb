@@ -7,8 +7,8 @@ default[:osb][:oracle_home] = "#{node[:osb][:middleware_home]}/service_bus"
 default[:osb][:weblogic_home] = "#{node[:osb][:middleware_home]}/weblogic"
 default[:osb][:inventory_dir] = "#{node[:osb][:middleware_home]}/service_bus_inventory"
 default[:osb][:instalation_group] = "service_bus"
-default[:osb][:username] = nil
-default[:osb][:password] = nil
+default[:osb][:username] = "weblogic"
+default[:osb][:password] = "12345678"
 
 
 default[:osb][:log_file] = "/var/log/osb_install.log"
