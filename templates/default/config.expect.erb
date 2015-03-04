@@ -1,0 +1,26 @@
+#!/usr/bin/expect
+set timeout 30
+
+set username "<%= @username %>"
+set password "<%= @password %>"
+log_user 0
+
+spawn ./config.sh
+
+expect {
+  timeout { send_user "\nFailed to get username prompt\n"; exit 1 }
+  "Enter username to boot WebLogic server:"
+}
+
+send "1\r"
+
+expect {
+  timeout { send_user "\nLogin failed. Password incorrect.\n"; exit 1}
+  "Enter password to boot WebLogic server:"
+}
+
+send "$password\r"
+
+send_user "\nPassword is correct\n"
+send "exit\r"
+close

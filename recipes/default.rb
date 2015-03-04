@@ -13,6 +13,10 @@ yum_package 'glibc' do
   arch 'i686'
 end
 
+package 'expect' do
+  action :install
+end 
+
 user 'oracle' do
   supports :manage_home => true
   comment 'Oracle user'

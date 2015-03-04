@@ -1,4 +1,3 @@
-
 default[:osb][:middleware_home] = "/opt/middleware"
 default[:osb][:tmp_dir] = "/tmp/oracle"
 default[:osb][:swap_dir] = "/mnt"

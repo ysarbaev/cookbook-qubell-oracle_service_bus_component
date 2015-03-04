@@ -1,0 +1,31 @@
+#!/usr/bin/expect
+set timeout 9
+set server   [lindex $argv 0]
+set username [lindex $argv 1]
+set password [lindex $argv 2]
+#log_user 0
+
+if {[llength $argv] == 0} {
+  send_user "Usage: scriptname server username \'password\'\n"
+  exit 1
+}
+
+spawn ./startManagedWebLogic.sh $server
+
+expect {
+  timeout { send_user "\nFailed to get username prompt\n"; exit 1 }
+  "Enter username to boot WebLogic server:"
+}
+
+send "$username\r"
+
+expect {
+  timeout { send_user "\nLogin failed. Password incorrect.\n"; exit 1}
+  "Enter password to boot WebLogic server:"
+}
+
+send "$password\r"
+
+send_user "\nPassword is correct\n"
+send "exit\r"
+close
