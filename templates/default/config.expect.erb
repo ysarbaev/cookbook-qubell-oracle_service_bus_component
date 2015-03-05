@@ -1,10 +1,10 @@
 #!/usr/bin/expect
-set timeout 60
+set timeout 10
 
 set username "<%= @username %>"
-set password "<%= @password %>"
+set password [lindex $argv 0]
 
-log_user 0
+#log_user 0
 
 spawn ./config.sh
 
@@ -27,7 +27,7 @@ expect {
 
 send "1\r"
 
-
+set timout 3
 
 # Select Domain Source:
 # ---------------------
@@ -223,11 +223,12 @@ send "2\r"
 expect "Enter index number*"
 send "Next\r"
 
+set timeout 600
 
 # Creating Domain...
 expect {
-  timeout { send_user "\nFailed Creating Domain\n"; exit 1 }
-  "Enter index number to select*"
+  timeout { send_user "\Failed Creating Domain\n"; exit 1 }
+  -ex "**** Domain Created Successfully! ****"
 }
 
 send "exit\r"

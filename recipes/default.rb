@@ -106,19 +106,9 @@ execute "runInstaller" do
   user "oracle"
 end
 
-
-template "#{node[:osb][:oracle_home]}/common/bin/config.expect" do
-  source "config.expect.erb"
-  owner "oracle"
-  group "root"
-  variables(node[:osb])
-  mode 00755
+ruby_block 'wait for service bus' do
+  block do
+    true until ::File.exists?("#{node[:osb][:oracle_home]}/common/bin")
+  end
 end
-
-# execute "config" do
-#   command "./config.expect"
-#   cwd "#{node[:osb][:oracle_home]}/common/bin"
-#   action :run
-#   user "oracle"
-# end
 
