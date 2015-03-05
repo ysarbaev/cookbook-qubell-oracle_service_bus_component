@@ -1,9 +1,8 @@
 #!/usr/bin/expect
 set timeout 20
 
-set server   [lindex $argv 0]
-set username [lindex $argv 1]
-set password [lindex $argv 2]
+set username [lindex $argv 0]
+set password [lindex $argv 1]
 
 #log_user 0
 
@@ -12,7 +11,7 @@ if {[llength $argv] == 0} {
   exit 1
 }
 
-spawn ./startManagedWebLogic.sh $server
+spawn ./startWebLogic.sh
 
 expect {
   timeout { send_user "\nFailed to get username prompt\n"; exit 1 }
@@ -30,4 +29,4 @@ send "$password\r"
 
 send_user "\nPassword is correct\n"
 
-close -onexec
+close -onexec 0

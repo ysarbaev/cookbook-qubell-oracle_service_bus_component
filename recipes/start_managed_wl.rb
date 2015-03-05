@@ -1,6 +1,15 @@
 
+
+# WIP
+cookbook_file "#{node[:osb][:domain_home]}/startWebLogic.expect" do
+  source "startWebLogic.expect"
+  owner "oracle"
+  group "root"
+  mode 00755
+end
+
 execute 'startWebLogic' do
-  command "./startWebLogic.sh &"
+  command "./startWebLogic.expect #{node[:osb][:username]} #{node[:osb][:password]} &"
   action :run
   user "root"
 end
