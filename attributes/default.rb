@@ -9,10 +9,8 @@ default[:osb][:inventory_dir] = "#{node[:osb][:middleware_home]}/service_bus_inv
 default[:osb][:instalation_group] = "service_bus"
 default[:osb][:username] = ""
 default[:osb][:password] = ""
-
-default[:osb][:domain_dir] = "#{node[:osb][:middleware_home]}/user_projects/domains"
-default[:osb][:domain_dir] = "base_domain"
-
+default[:osb][:domains_dir] = "#{node[:osb][:middleware_home]}/user_projects/domains"
+default[:osb][:domain_name] = "base_domain"
+default[:osb][:domain_home] = "#{node[:osb][:domains_dir]}/#{node[:osb][:domain_name]}"
 default[:osb][:server_name] = "osb_server1"
-
 default[:osb][:log_file] = "/var/log/osb_install.log"

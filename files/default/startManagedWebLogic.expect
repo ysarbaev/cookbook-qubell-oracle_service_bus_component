@@ -27,5 +27,5 @@ expect {
 send "$password\r"
 
 send_user "\nPassword is correct\n"
-send "exit\r"
-close
+
+close -onexec 0
