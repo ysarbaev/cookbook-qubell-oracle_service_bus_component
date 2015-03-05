@@ -115,10 +115,10 @@ template "#{node[:osb][:oracle_home]}/common/bin/config.expect" do
   mode 00755
 end
 
-execute "config" do
-  command "./config.expect"
-  cwd "#{node[:osb][:oracle_home]}/common/bin"
-  action :run
-  user "oracle"
-end
+# execute "config" do
+#   command "./config.expect"
+#   cwd "#{node[:osb][:oracle_home]}/common/bin"
+#   action :run
+#   user "oracle"
+# end
 
